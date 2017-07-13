@@ -21,7 +21,10 @@ class ManualStep:
             'criterion 6': ('Відбір за зіставністю функцій', 'Отбор по функциональному профилю', 'Functions comparability'),
             'criterion 7': ('Відбір за наявністю додаткової незіставної діяльності', 'Отбор по наличию дополнительной несопоставимой деятельности','Additional uncomparable functions'),
             'criterion 8': ('Відбір за критерієм незалежності', 'Отбор по критерию независимости', 'Independence check'),
-            'criterion 9': ('Вибірка зіставних компаній', 'Выборка сопоставимых компаний', 'Final comparable set')
+            'criterion 9': ('Вибірка зіставних компаній', 'Выборка сопоставимых компаний', 'Final comparable set'),
+            'criterion 10': ('Результати дослідження діяльності обраних компаній за інформацією, отриманою з мережі Інтернет, та додаткової перевірки незалежності компаній',
+                             'Результаты исследования деятельности отобранных компаний по информации полученной из открытого источника Интернет, и дополнительной проверки независимости сопоставляемых компаний',
+                             'Results of comparable companies review in Internet and independence doublecheck')
         }
         if lang == 'UA':
             step_name_type = 0
@@ -42,8 +45,8 @@ class ManualStep:
 
         sheet_names = bms_template.get_sheet_names()
         step_sheet = bms_template.get_sheet_by_name(sheet_names[3])
-        img = Image('Deloitte_logo.png',size=[300,50])
-        img.anchor(step_sheet.cell('C1'),anchortype='oneCell')
+        img = Image('Deloitte_logo.png',size=[250,50])
+        img.anchor(step_sheet.cell('B1'),anchortype='oneCell')
         step_sheet.add_image(img)
 
         step_sheet.merge_cells(start_row=1, start_column=1, end_row=3, end_column=5)
@@ -59,7 +62,8 @@ class ManualStep:
         step_sheet.column_dimensions[get_column_letter(4)].width = 15
         step_sheet.column_dimensions[get_column_letter(5)].width = 15
 
-        step_sheet.row_dimensions[4].height = 15
+        for row in range(1,5):
+            step_sheet.row_dimensions[row].height = 13
 
         lang = Properties.lang_from_template_type(bms_template)
         for col in range(1, 6):
@@ -69,11 +73,11 @@ class ManualStep:
             Styles.thin_border_fill_cell_style(step_sheet.cell(column=col, row=6))
             step_sheet.row_dimensions[row].height = 30
             step_sheet.cell(column=2, row=6, value=ManualStep.define_step_name_type(lang)[1])
-        cell = step_sheet.cell(column=3,row=5)
-        cell.border = Border(left=Side(color=DesignUtils.color_palette()['LIGHTBERLINBLUE']))
-        cell = step_sheet.cell(column=3, row=6)
-        cell.border = Border(left=Side(color=DesignUtils.color_palette()['LIGHTBERLINBLUE']))
+
+        step_sheet['A5'] = 1
+        step_sheet['A6'] = 2
         for row in range(7,14):
+            step_sheet['A'+str(row)]=row-4
             step_sheet.row_dimensions[row].height = 20
             step_sheet.cell(column=2, row=row, value=ManualStep.define_step_name_type(lang)[row-5])
             step_sheet.merge_cells(start_row=row, start_column=2, end_row=row, end_column=3)
@@ -83,6 +87,7 @@ class ManualStep:
         step_sheet.row_dimensions[14].height = 30
         for col in range (1,6):
             Styles.header_style_light_blue(step_sheet.cell(column=col,row=14))
+        step_sheet['B14'] = ManualStep.define_step_name_type(lang)[9]
         step_sheet.merge_cells(start_row=14, start_column=2, end_row=14, end_column=3)
 
         print('manual steps added')
