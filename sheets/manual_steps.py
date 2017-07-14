@@ -57,8 +57,8 @@ class ManualStep:
         step_sheet.merge_cells(start_row=4, start_column=1, end_row=4, end_column=3)
         for col in range (1,6):
             Styles.thick_border_fill_cell_style(step_sheet.cell(column=col,row=4))
-        step_sheet.column_dimensions[get_column_letter(2)].width = 35
-        step_sheet.column_dimensions[get_column_letter(3)].width = 10
+        step_sheet.column_dimensions[get_column_letter(2)].width = 40
+        step_sheet.column_dimensions[get_column_letter(3)].width = 15
         step_sheet.column_dimensions[get_column_letter(4)].width = 15
         step_sheet.column_dimensions[get_column_letter(5)].width = 15
 

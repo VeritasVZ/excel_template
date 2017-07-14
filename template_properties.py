@@ -5,30 +5,27 @@ from openpyxl.styles import *
 from openpyxl.worksheet.worksheet import *
 from openpyxl.utils import get_column_letter
 from BMS_template.utilities import DesignUtils
+from BMS_template.write_attributes import AttributesToTemplate
 
 class Properties:
 
+    def template_lang(lang):
+
+        if lang == 'UA':
+            template_lang = 0
+        elif lang == 'RU':
+            template_lang = 1
+        elif lang == 'EU':
+            template_lang = 2
+        else:
+            template_lang = None
+            print('Wrong language')
+        return template_lang
 
     def template_type(lang):
-
-        sheet_names_types = {
-            'sheet_1': ('Результати з бази даних', 'Результаты из базы данных', 'BvD Results'),
-            'sheet_2': ('Стратегія пошуку', 'Стратегия поиска', 'Search Strategy'),
-            'sheet_3': ('Кроки стратегії', 'Шаги стратегии', 'BvD Strategy Steps'),
-            'sheet_4': ('Додаткові критерії вибору', 'Дополнительные критерии отбора', 'Manual steps'),
-            'sheet_5': ('Спостереження', 'Наблюдения', 'Search Matrix'),
-            'sheet_6': ('Перевірка діяльності', 'Проверка деятельности', 'Web review'),
-            'sheet_7': ('Діапазон рентабельності','Диапазон рентабельности','Market range'),
-            'sheet_8': ('Порівняння з попереднім роком','Сравнение с прошлым годом','Reconciliation matrix')
-        }
-        sheets = list(sheet_names_types.keys())
-        sheet_names = {}
-        for sheet_no in range(len(sheets)):
-            type_item = sheet_names_types.get(sheets[sheet_no])
-            if lang == 'UA': sheet_names[sheets[sheet_no]] = type_item[0]
-            elif lang == 'RU': sheet_names[sheets[sheet_no]] = type_item[1]
-            elif lang == 'EU': sheet_names[sheets[sheet_no]] = type_item[2]
-            else: print('Wrong language')
+        template_lang = Properties.template_lang(lang)
+        sheet_names_en = ['BvD Results','Search Strategy','BvD Strategy Steps','Manual steps','Search Matrix', 'Web review','Market range','Reconciliation matrix']
+        sheet_names = AttributesToTemplate.get_attributes(template_lang, sheet_names_en)
         return sheet_names
 
     def lang_from_template_type(bms_template):

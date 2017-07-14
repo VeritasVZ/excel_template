@@ -3,14 +3,19 @@ from BMS_template.bms_template import Properties
 from BMS_template.bms_template import Template, InputParsing
 from BMS_template.sheets.search_matrix import SearchMatrix
 from BMS_template.sheets.manual_steps import ManualStep
+from time import strptime
+from datetime import datetime
+import json
+from openpyxl.styles import *
 
+"""
 file_name = 'input_data\Ruslana_Export.xlsx'
 file = Template.create_template('UA')
 df = InputParsing.get_results_from_export(file_name)
 ManualStep.steps_table(file).save('results_data\empty_book.xlsx')
 #print(ManualStep.define_step_name_type('RU'))
 
-"""
+
 def input_file_check(file):
     correct_header_names = ['Компания', 'Юридическая форма', 'ЕДРПОУ/ИИН', 'Номер телефона', 'Город', 'Адрес',
                             'NACE Rev. 2.', 'Адрес в интернете', 'Перечень деятельности']
@@ -30,3 +35,8 @@ def input_file_check(file):
 
 print(input_file_check(file))
 """
+
+wb = Workbook()
+sheet = wb.active
+sheet['A1'].fill = PatternFill(patternType='solid',fgColor=colors.DARKBLUE)
+wb.save('trial.xlsx')
